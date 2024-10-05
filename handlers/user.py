@@ -21,9 +21,9 @@ async def start_message_handler(message: Message, state: FSMContext):
     await Orm.create_user(message)
     await send_start_message(message.from_user.id)
     
-async def send_start_message(telegram_id: int):
+async def send_start_message(message: Message):
     await bot.send_message(
-        chat_id=telegram_id,
-        text=start_text
+        chat_id=message.from_user.id,
+        text=await generate_start_text(message),
     )
-        
+    
