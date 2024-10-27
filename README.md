@@ -2,14 +2,15 @@
 template for aiogram3.x bots
 
 # commands
-to start:
+you need to install dependencies with
 ~~~
-poetry init
+uv sync
 ~~~
-then press enter
-then you need to enter command:
+activate .venv
 ~~~
-poetry shell
+source .venv/bin/activate
+~~~ or if you have the windows ~~~
+source .venv/Scripts/activate
 ~~~
 then to run your script:
 ~~~
@@ -19,22 +20,26 @@ there we go
 
 # command to generate requirements.txt from poetry:
 ~~~
-poetry export --without-hashes --without-urls | awk '{ print $1 }' FS=';' > requirements.txt
+uv pip freeze > requirements.txt
 ~~~
 
 # custom commands
-to add new module in poetry:
+to add new module in uv:
 ~~~
-poetry add 
+uv add 
 ~~~
 and write module name after add
+** you may add module with version
+~~~
+uv add module@version
+~~~
 ** you may write module names with space, for example:
 ```
-poetry add aiogram sqlalchemy fastapi
+uv add aiogram sqlalchemy fastapi
 ```
 
 to delete module in poetry:
 ~~~
-poetry remove
+uv remove
 ~~~
 and write module name after remove
