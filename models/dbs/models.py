@@ -9,5 +9,5 @@ class User(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     telegram_id: Mapped[int] = mapped_column(unique=True)
     full_name: Mapped[str]
-    username: Mapped[str]
+    username: Mapped[str] = mapped_column(nullable=True)
     admin: Mapped[bool] = mapped_column(default=False)

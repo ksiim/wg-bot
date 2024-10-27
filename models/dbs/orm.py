@@ -8,21 +8,17 @@ from sqlalchemy import insert, inspect, or_, select, text
 
 class Orm:
     
-    @classmethod
-    async def create_user(cls, message):
-        if await cls.get_user_by_telegram_id(message.from_user.id) is None:
-            user = User(
-                full_name=message.from_user.full_name,
-                telegram_id=message.from_user.id,
-                username=message.from_user.username
-            )
-            await cls.save_user(user)
-    
     @staticmethod
-    async def save_user(user):
-        async with Session() as session:
-            await session.merge(user)
-            await session.commit()
+    async def create_user(message):
+        if await Orm.get_user_by_telegram_id(message.from_user.id) is None:
+            async with Session() as session:
+                user = User(
+                    full_name=message.from_user.full_name,
+                    telegram_id=message.from_user.id,
+                    username=message.from_user.username
+                )
+                session.add(user)
+                await session.commit()
     
     @staticmethod
     async def get_user_by_telegram_id(telegram_id):

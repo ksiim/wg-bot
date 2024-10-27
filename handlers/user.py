@@ -19,7 +19,7 @@ async def start_message_handler(message: Message, state: FSMContext):
     await state.clear()
     
     await Orm.create_user(message)
-    await send_start_message(message.from_user.id)
+    await send_start_message(message)
     
 async def send_start_message(message: Message):
     await bot.send_message(
