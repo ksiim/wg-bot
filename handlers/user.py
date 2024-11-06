@@ -9,6 +9,7 @@ from bot import dp, bot
 
 from models.dbs.orm import Orm
 from models.dbs.models import *
+from utils.wireguard import WireGuard
 
 from .callbacks import *
 from .markups import *
@@ -26,3 +27,8 @@ async def send_start_message(message: Message):
         chat_id=message.from_user.id,
         text=await generate_start_text(message),
     )
+    
+@dp.message(Command('qwe'))
+async def qwe_message_handler(message: Message):
+    wg = WireGuard()
+    user = await Orm.get_user_by_telegram_id(message.from_user.id)

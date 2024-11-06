@@ -15,8 +15,6 @@ logging.basicConfig(level=logging.INFO)
 
 async def main():
     await create_database()
-    wg = WireGuard()
-    wg.install_wireguard()
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
