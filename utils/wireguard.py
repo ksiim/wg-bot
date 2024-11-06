@@ -1,6 +1,8 @@
 import os
 import subprocess
 
+from config import PUBLIC_KEY
+
 class WireGuard:
     def __init__(self, config_dir='/etc/wireguard', server_config='wg0.conf'):
         self.config_dir = config_dir
@@ -106,7 +108,7 @@ ListenPort = 51820
                     private_key = line.split('=')[1].strip()
                     break
             if private_key:
-                public_key = subprocess.run(['wg', 'pubkey'], input=private_key.encode(), check=True, stdout=subprocess.PIPE).stdout.decode().strip()
+                public_key = PUBLIC_KEY
                 return public_key, '138.124.10.20'
             else:
                 raise ValueError("Server private key not found in the server config.")
