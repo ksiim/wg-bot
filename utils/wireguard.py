@@ -30,7 +30,7 @@ PersistentKeepalive = 25
             config_file.write(config_content)
         
         self.add_peer_to_server_config(public_key, address)
-        return config_path
+        return 
 
     def connect_user(self, user):
         config_path = os.path.join(self.config_dir, f'{user.id}.conf')
