@@ -32,3 +32,6 @@ async def send_start_message(message: Message):
 async def qwe_message_handler(message: Message):
     wg = WireGuard()
     user = await Orm.get_user_by_telegram_id(message.from_user.id)
+    wg.create_user_config(user)
+    wg.connect_user(user)
+    

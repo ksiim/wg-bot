@@ -6,8 +6,6 @@ import logging
 
 import handlers
 
-from utils.wireguard import WireGuard
-
 from models.databases import create_database
 
 
