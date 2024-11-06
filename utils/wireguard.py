@@ -46,7 +46,7 @@ PersistentKeepalive = 25
         try:
             subprocess.run(['wg', '--version'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             print("WireGuard is already installed.")
-        except subprocess.CalledProcessError:
+        except Exception as e:
             print("WireGuard is not installed. Installing now...")
             subprocess.run(['apt-get', 'update'], check=True)
             subprocess.run(['apt-get', 'install', '-y', 'wireguard'], check=True)
