@@ -38,4 +38,7 @@ async def qwe_message_handler(message: Message):
 async def asd_message_handler(message: Message):
     wg = WireGuard()
     user = await Orm.get_user_by_telegram_id(message.from_user.id)
+    path = wg.create_user_config(user)
+    file = FSInputFile(path=path)
+    await message.answer_document(file)
     
