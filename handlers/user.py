@@ -26,4 +26,3 @@ async def send_start_message(message: Message):
         chat_id=message.from_user.id,
         text=await generate_start_text(message),
     )
-    
