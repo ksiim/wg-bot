@@ -8,7 +8,7 @@ class WireGuard:
 
     def create_user_config(self, user):
         private_key, public_key = self.generate_keys()
-        address = self.generate_address(user.id)
+        address = self.generate_address(user)
         dns = '1.1.1.1,1.0.0.1'
         
         server_public_key, server_ip = self.get_server_details()
