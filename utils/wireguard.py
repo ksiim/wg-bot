@@ -22,7 +22,7 @@ Address = {address}
 DNS = {dns}
 
 [Peer]
-PublicKey = {server_public_key}
+PublicKey = {PUBLIC_KEY}
 AllowedIPs = 0.0.0.0/0,::/0
 Endpoint = {server_ip}:51820
 """
