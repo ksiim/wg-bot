@@ -23,9 +23,8 @@ DNS = {dns}
 
 [Peer]
 PublicKey = {server_public_key}
-AllowedIPs = 0.0.0.0/0
+AllowedIPs = 0.0.0.0/0,::0
 Endpoint = {server_ip}:51820
-PersistentKeepalive = 25
 """
         config_path = os.path.join(self.config_dir, f'{user.id}.conf')
         with open(config_path, 'w') as config_file:
