@@ -91,6 +91,18 @@ AllowedIPs = {address}
 PrivateKey = {private_key}
 Address = 10.0.0.1/16
 ListenPort = 51820
+PostUp = iptables -I INPUT -p udp --dport 51820 -j ACCEPT
+PostUp = iptables -I FORWARD -i ens3 -o wg0 -j ACCEPT
+PostUp = iptables -I FORWARD -i wg0 -j ACCEPT
+PostUp = iptables -t nat -A POSTROUTING -o ens3 -j MASQUERADE
+PostUp = ip6tables -I FORWARD -i wg0 -j ACCEPT
+PostUp = ip6tables -t nat -A POSTROUTING -o ens3 -j MASQUERADE
+PostDown = iptables -D INPUT -p udp --dport 51820 -j ACCEPT
+PostDown = iptables -D FORWARD -i ens3 -o wg0 -j ACCEPT
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT
+PostDown = iptables -t nat -D POSTROUTING -o ens3 -j MASQUERADE
+PostDown = ip6tables -D FORWARD -i wg0 -j ACCEPT
+PostDown = ip6tables -t nat -D POSTROUTING -o ens3 -j MASQUERADE
 """
         config_path = os.path.join(self.config_dir, self.server_config)
         with open(config_path, 'w') as config_file:
