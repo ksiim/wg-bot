@@ -31,7 +31,7 @@ Endpoint = {server_ip}:51820
             config_file.write(config_content)
         
         self.add_peer_to_server_config(public_key, address)
-        return config_path
+        return config_path, public_key
 
     def disconnect_user(self, user):
         config_path = os.path.join(self.config_dir, f'{user.id}.conf')
@@ -75,8 +75,9 @@ AllowedIPs = {address}
 """
         with open(server_config_path, 'a') as server_config_file:
             server_config_file.write(peer_config)
-        subprocess.run(['wg-quick', 'down', self.server_config.split('.')[0]], check=True)
-        subprocess.run(['wg-quick', 'up', self.server_config.split('.')[0]], check=True)
+        subprocess.run(
+            ['wg', 'set', self.server_config.split('.')[0], 'peer', public_key, 'allowed-ips', address],
+        )
         
     def generate_server_config(self):
         private_key, public_key = self.generate_keys()

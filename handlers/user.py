@@ -4,6 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import (
     Message, CallbackQuery, FSInputFile
 )
+from sqlalchemy import delete
 
 from bot import dp, bot
 
@@ -38,12 +39,17 @@ async def qwe_message_handler(message: Message):
 async def asd_message_handler(message: Message):
     wg = WireGuard()
     user = await Orm.get_user_by_telegram_id(message.from_user.id)
-    path = wg.create_user_config(user)
+    path, public_key = wg.create_user_config(user)
+    await Orm.update_public_key(user.id, public_key)
     file = FSInputFile(path=path)
     await message.answer_document(file)
+    wg.delete_user_config(user)
     
 @dp.message(Command('zxc'))
 async def zxc_message_handler(message: Message):
     wg = WireGuard()
     user = await Orm.get_user_by_telegram_id(message.from_user.id)
+    user_public_key = user.public_key
+    wg.remove_peer_from_server_config(user_public_key)
+    
     

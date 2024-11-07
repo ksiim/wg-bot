@@ -1,4 +1,5 @@
 import asyncio
+from turtle import update
 
 from models.databases import Session
 from models.dbs.models import *
@@ -7,6 +8,16 @@ from sqlalchemy import insert, inspect, or_, select, text
 
 
 class Orm:
+    
+    @staticmethod
+    async def update_public_key(user_id, public_key):
+        async with Session() as session:
+            query = (
+                update(User)
+                .where(User.id == user_id)
+                .values(public_key=public_key)
+            )
+            await session.execute(query)
     
     @staticmethod
     async def create_user(message):
