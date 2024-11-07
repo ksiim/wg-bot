@@ -17,6 +17,7 @@ class Orm:
                 .values(public_key=public_key)
             )
             await session.execute(query)
+            await session.commit()
     
     @staticmethod
     async def create_user(message):
