@@ -23,7 +23,7 @@ DNS = {dns}
 
 [Peer]
 PublicKey = {server_public_key}
-AllowedIPs = 0.0.0.0/0,::0
+AllowedIPs = 0.0.0.0/0,::/0
 Endpoint = {server_ip}:51820
 """
         config_path = os.path.join(self.config_dir, f'{user.id}.conf')
@@ -32,12 +32,6 @@ Endpoint = {server_ip}:51820
         
         self.add_peer_to_server_config(public_key, address)
         return config_path
-
-    def connect_user(self, user):
-        config_path = os.path.join(self.config_dir, f'{user.id}.conf')
-        if not os.path.exists(config_path):
-            raise FileNotFoundError(f"Config file for user {user.id} does not exist.")
-        subprocess.run(['wg-quick', 'up', config_path], check=True)
 
     def disconnect_user(self, user):
         config_path = os.path.join(self.config_dir, f'{user.id}.conf')
@@ -86,6 +80,14 @@ AllowedIPs = {address}
         
     def generate_server_config(self):
         private_key, public_key = self.generate_keys()
+        with open('.env', 'w') as env_file:
+            lines = env_file.readlines()
+            for line in lines:
+                if line.startswith('PRIVATE_KEY='):
+                    lines[lines.index(line)] = f'PRIVATE_KEY={private_key}\n'
+                elif line.startswith('PUBLIC_KEY='):
+                    lines[lines.index(line)] = f'PUBLIC_KEY={public_key}\n'
+
         config_content = f"""
 [Interface]
 PrivateKey = {private_key}
@@ -123,3 +125,16 @@ PostDown = ip6tables -t nat -D POSTROUTING -o ens3 -j MASQUERADE
                 return public_key, '138.124.10.20'
             else:
                 raise ValueError("Server private key not found in the server config.")
+            
+    def remove_peer_from_server_config(self, public_key):
+        server_config_path = os.path.join(self.config_dir, self.server_config)
+        with open(server_config_path, 'r') as server_config_file:
+            lines = server_config_file.readlines()
+        with open(server_config_path, 'w') as server_config_file:
+            for line in lines:
+                if line.startswith('[Peer]') and f'PublicKey = {public_key}' in lines:
+                    continue
+                server_config_file.write(line)
+        subprocess.run(['wg', 'syncconf', self.server_config.split('.')[0], server_config_path], check=True)
+        subprocess.run(['wg-quick', 'down', self.server_config.split('.')[0]], check=True)
+        subprocess.run(['wg-quick', 'up', self.server_config.split('.')[0]], check=True)
