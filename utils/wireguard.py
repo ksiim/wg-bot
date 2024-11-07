@@ -81,8 +81,8 @@ AllowedIPs = {address}
 """
         with open(server_config_path, 'a') as server_config_file:
             server_config_file.write(peer_config)
-        subprocess.run(['wg-quick', 'down', os.path.join(self.config_dir, self.server_config.split('.')[0])], check=True)
-        subprocess.run(['wg-quick', 'up', os.path.join(self.config_dir, self.server_config.split('.')[0])], check=True)
+        subprocess.run(['wg-quick', 'down', self.server_config.split('.')[0]], check=True)
+        subprocess.run(['wg-quick', 'up', self.server_config.split('.')[0]], check=True)
         
     def generate_server_config(self):
         private_key, public_key = self.generate_keys()
