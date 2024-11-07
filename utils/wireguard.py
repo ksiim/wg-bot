@@ -81,7 +81,7 @@ AllowedIPs = {address}
         
     def generate_server_config(self):
         private_key, public_key = self.generate_keys()
-        with open('.env', 'w') as env_file:
+        with open('.env', 'r+') as env_file:
             lines = env_file.readlines()
             for line in lines:
                 if line.startswith('PRIVATE_KEY='):
