@@ -73,11 +73,10 @@ AllowedIPs = 0.0.0.0/0,::/0
 PublicKey = {public_key}
 AllowedIPs = {address}
 """
-        with open(server_config_path, 'a') as server_config_file:
-            server_config_file.write(peer_config)
         subprocess.run(
             ['wg', 'set', self.server_config.split('.')[0], 'peer', public_key, 'allowed-ips', address],
         )
+        subprocess.run(['wg-quick', 'save', 'wg0'])
         
     def generate_server_config(self):
         private_key, public_key = self.generate_keys()
@@ -121,12 +120,5 @@ PostDown = ip6tables -t nat -D POSTROUTING -o ens3 -j MASQUERADE
                 raise ValueError("Server private key not found in the server config.")
             
     def remove_peer_from_server_config(self, public_key):
-        server_config_path = os.path.join(self.config_dir, self.server_config)
-        with open(server_config_path, 'r') as server_config_file:
-            lines = server_config_file.readlines()
-        with open(server_config_path, 'w') as server_config_file:
-            for line in lines:
-                if line.startswith('[Peer]') and f'PublicKey = {public_key}' in lines:
-                    continue
-                server_config_file.write(line)
         subprocess.run(['wg', 'set', self.server_config.split('.')[0], 'peer', public_key, 'remove'])
+        subprocess.run(['wg-quick', 'save', 'wg0'])
