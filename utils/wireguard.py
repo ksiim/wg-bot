@@ -23,8 +23,8 @@ DNS = {dns}
 
 [Peer]
 PublicKey = {PUBLIC_KEY}
-AllowedIPs = 0.0.0.0/0,::/0
 Endpoint = {server_ip}:51820
+AllowedIPs = 0.0.0.0/0,::/0
 """
         config_path = os.path.join(self.config_dir, f'{user.id}.conf')
         with open(config_path, 'w') as config_file:
@@ -129,6 +129,4 @@ PostDown = ip6tables -t nat -D POSTROUTING -o ens3 -j MASQUERADE
                 if line.startswith('[Peer]') and f'PublicKey = {public_key}' in lines:
                     continue
                 server_config_file.write(line)
-        subprocess.run(['wg', 'syncconf', self.server_config.split('.')[0], server_config_path], check=True)
-        subprocess.run(['wg-quick', 'down', self.server_config.split('.')[0]], check=True)
-        subprocess.run(['wg-quick', 'up', self.server_config.split('.')[0]], check=True)
+        subprocess.run(['wg', 'set', self.server_config.split('.')[0], 'peer', public_key, 'remove'])
