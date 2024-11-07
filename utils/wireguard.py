@@ -70,7 +70,7 @@ Endpoint = {server_ip}:51820
     def generate_address(self, user):
         base_ip = "10.0."
         user_id = user.id % 65534 + 1
-        return f"{base_ip}{user_id // 256}.{user_id % 256}/16"
+        return f"{base_ip}{user_id // 256}.{user_id % 256}/32"
 
     def add_peer_to_server_config(self, public_key, address):
         server_config_path = os.path.join(self.config_dir, self.server_config)
