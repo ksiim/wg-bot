@@ -1,10 +1,9 @@
 import asyncio
-from turtle import update
 
 from models.databases import Session
 from models.dbs.models import *
 
-from sqlalchemy import insert, inspect, or_, select, text
+from sqlalchemy import insert, inspect, or_, select, text, update
 
 
 class Orm:
