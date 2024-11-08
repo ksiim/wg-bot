@@ -41,8 +41,7 @@ AllowedIPs = 0.0.0.0/0,::/0
     def disconnect_user(self, user):
         config_path = os.path.join(self.config_dir, f'{user.id}.conf')
         if not os.path.exists(config_path):
-            raise FileNotFoundError(f"Config file for user {
-                                    user.id} does not exist.")
+            raise FileNotFoundError(f"Config file for user {user.id} does not exist.")
         subprocess.run(['wg-quick', 'down', config_path], check=True)
 
     def delete_user_config(self, user):
