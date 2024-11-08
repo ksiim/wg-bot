@@ -85,8 +85,7 @@ async def my_subscription_callback_handler(callback: CallbackQuery):
     wg = WireGuard()
     user_config_path = wg.get_user_config_path(user)
     if end_of_subscription_date:
-        text = f"Ваша подписка активна до {
-            end_of_subscription_date.strftime('%d.%m.%Y')}"
+        text = f"Ваша подписка активна до {end_of_subscription_date.strftime('%d.%m.%Y')}"
         await callback.message.answer_document(
             document=FSInputFile(user_config_path)
         )
