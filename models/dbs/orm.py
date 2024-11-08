@@ -9,6 +9,27 @@ from sqlalchemy import insert, inspect, or_, select, text, update
 class Orm:
     
     @staticmethod
+    async def unsubscribe_user(telegram_id):
+        async with Session() as session:
+            query = (
+                update(User)
+                .where(User.telegram_id == telegram_id)
+                .values(subscription=False)
+            )
+            await session.execute(query)
+            await session.commit()
+    
+    @staticmethod
+    async def get_users_with_ended_subscription():
+        async with Session() as session:
+            query = (
+                select(User)
+                .where(User.end_of_subscription < datetime.datetime.now())
+            )
+            users = (await session.execute(query)).scalars().all()
+            return users
+    
+    @staticmethod
     async def get_end_of_subscription(telegram_id):
         async with Session() as session:
             query = (
@@ -30,6 +51,7 @@ class Orm:
                 update(User)
                 .where(User.telegram_id == telegram_id)
                 .values(end_of_subscription=subscription_end_date + datetime.timedelta(days=30 * int(months)))
+                .values(subscription=True)
             )
             await session.execute(query)
             await session.commit()
