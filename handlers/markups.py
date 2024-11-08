@@ -10,7 +10,7 @@ prices = {
     12: 2000
 }
 
-help_photo = 'AgACAgIAAxkBAAIyh2cuH1f4Op4jAfjnsowU7iMwNAF1AAKU5DEbYY5xScfaQ9ME-e3JAQADAgADbQADNgQ'
+help_photo = 'AgACAgIAAxkBAAMDZy5T-bGJZVGVUA82sgFlu9onWJ0AApTkMRthjnFJBFmGReZetXoBAAMCAANtAAM2BA'
 
 choose_type_of_subscription_text = "Выберите тип подписки:"
 choose_period_of_renew_text = "Выберите срок продления:"
