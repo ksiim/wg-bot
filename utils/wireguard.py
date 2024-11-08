@@ -49,8 +49,7 @@ AllowedIPs = 0.0.0.0/0,::/0
         if os.path.exists(config_path):
             os.remove(config_path)
         else:
-            raise FileNotFoundError(f"Config file for user {
-                                    user.id} does not exist.")
+            raise FileNotFoundError(f"Config file for user {user.id} does not exist.")
 
     def install_wireguard(self):
         try:
