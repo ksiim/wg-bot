@@ -88,7 +88,7 @@ async def my_subscription_callback_handler(callback: CallbackQuery):
         text = f"Ваша подписка активна до {end_of_subscription_date.strftime('%d.%m.%Y')}"
         await callback.message.answer_document(
             document=FSInputFile(user_config_path),
-            text=text,
+            caption=text
             reply_markup=main_menu_markup
         )
     else:
