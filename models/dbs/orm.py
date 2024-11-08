@@ -26,6 +26,7 @@ class Orm:
                 update(User)
                 .where(User.telegram_id == telegram_id)
                 .values(subscription=False)
+                .values(end_of_subscription=None)
             )
             await session.execute(query)
             await session.commit()
