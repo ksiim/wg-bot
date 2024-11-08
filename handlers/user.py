@@ -73,7 +73,7 @@ async def help_callback_handler(callback: CallbackQuery):
 async def my_subscription_callback_handler(callback: CallbackQuery):
     await callback.message.delete()
     end_of_subscription_date = await Orm.get_end_of_subscription(callback.from_user.id)
-    if end_of_subscription_date or end_of_subscription_date > datetime.datetime.now():
+    if end_of_subscription_date:
         text = f"Ваша подписка активна до {end_of_subscription_date.strftime('%d.%m.%Y')}"
     else:
         text = 'Похоже у вас еще нет подписки'
