@@ -90,8 +90,7 @@ AllowedIPs = {address}
 
     def generate_server_config(self):
         private_key, public_key = self.generate_keys()
-        print(f"Server private key: {
-              private_key}\nServer public key: {public_key}")
+        print(f"Server private key: {private_key}\nServer public key: {public_key}")
         config_content = f"""
 [Interface]
 PrivateKey = {private_key}
