@@ -89,4 +89,3 @@ async def add_user_config(telegram_id):
         chat_id=telegram_id,
         document=file
     )
-    wg.delete_user_config(user)

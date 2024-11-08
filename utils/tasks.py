@@ -18,3 +18,4 @@ async def disconnect_user(user: User, wg: WireGuard):
     await Orm.update_public_key(user.telegram_id, None)
     await Orm.unsubscribe_user(user.telegram_id)
     wg.remove_peer_from_server_config(user_public_key)
+    wg.delete_user_config(user)
