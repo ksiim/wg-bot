@@ -9,7 +9,7 @@ async def delete_unsubscribed_people():
     users = await Orm.get_users_with_ended_subscription()
     wg = WireGuard()
     for user in users:
-        await disconnect_user(user.telegram_id, wg)
+        await disconnect_user(user, wg)
     
 async def disconnect_user(user: User, wg: WireGuard):
     user_public_key = user.public_key
