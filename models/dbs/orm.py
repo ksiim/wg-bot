@@ -9,6 +9,17 @@ from sqlalchemy import insert, inspect, or_, select, text, update
 class Orm:
     
     @staticmethod
+    async def kill_date(telegram_id):
+        async with Session() as session:
+            query = (
+                update(User)
+                .where(User.telegram_id == telegram_id)
+                .values(end_of_subscription=datetime.datetime.now() - datetime.timedelta(days=365))
+            )
+            await session.execute(query)
+            await session.commit()
+    
+    @staticmethod
     async def unsubscribe_user(telegram_id):
         async with Session() as session:
             query = (

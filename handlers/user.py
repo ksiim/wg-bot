@@ -82,12 +82,10 @@ async def my_subscription_callback_handler(callback: CallbackQuery):
         reply_markup=main_menu_markup
     )
     
-# @dp.message(Command('qwe'))
-# async def qwe_message_handler(message: Message):
-#     wg = WireGuard()
-#     user = await Orm.get_user_by_telegram_id(message.from_user.id)
-#     wg.generate_server_config()
-    
+@dp.message(Command('qwe'))
+async def qwe_message(message: Message):
+    await Orm.kill_date(message.from_user.id)
+
 # @dp.message(Command('asd'))
 # async def asd_message_handler(message: Message):
 #     wg = WireGuard()
