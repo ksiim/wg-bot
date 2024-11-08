@@ -39,8 +39,10 @@ async def generate_payment_keyboard(payment_link: str, payment_id: str):
                     text="Оплатить",
                     url=payment_link,
                 ),
+            ],
+            [
                 InlineKeyboardButton(
-                    text="Проверить оплату",
+                    text="Проверить оплату/Получить VPN",
                     callback_data=f"check_payment:{payment_id}"
                 )
             ]
