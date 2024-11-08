@@ -85,5 +85,8 @@ async def add_user_config(telegram_id):
     path, public_key = wg.create_user_config(user)
     await Orm.update_public_key(user.id, public_key)
     file = FSInputFile(path=path)
-    await bot.send_document(file)
+    await bot.send_document(
+        chat_id=telegram_id,
+        document=file
+    )
     wg.delete_user_config(user)
