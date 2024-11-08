@@ -36,6 +36,7 @@ class Orm:
         async with Session() as session:
             query = (
                 select(User)
+                .where(User.subscription == True)
                 .where(User.end_of_subscription < datetime.datetime.now())
             )
             users = (await session.execute(query)).scalars().all()
