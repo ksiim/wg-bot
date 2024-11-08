@@ -87,14 +87,16 @@ async def my_subscription_callback_handler(callback: CallbackQuery):
     if end_of_subscription_date:
         text = f"Ваша подписка активна до {end_of_subscription_date.strftime('%d.%m.%Y')}"
         await callback.message.answer_document(
-            document=FSInputFile(user_config_path)
+            document=FSInputFile(user_config_path),
+            text=text,
+            reply_markup=main_menu_markup
         )
     else:
         text = 'Похоже у вас еще нет подписки'
-    await callback.message.answer(
-        text=text,
-        reply_markup=main_menu_markup
-    )
+        await callback.message.answer(
+            text=text,
+            reply_markup=main_menu_markup
+        )
 
 
 @dp.message(Command('qwe'))
