@@ -28,12 +28,13 @@ async def get_period(callback: CallbackQuery):
     await card_callback(
         telegram_id=callback.from_user.id,
         period=period,
-        total_amount=total_amount
+        total_amount=total_amount,
+        type_=callback.data.split("_")[0]
     )
     await asyncio.sleep(10)
     await answer.delete()
 
-async def card_callback(telegram_id=None, period=None, total_amount=None):
+async def card_callback(telegram_id=None, period=None, total_amount=None, type_=None):
     yoopay = YooPay()
     response = await yoopay.create_payment(
         amount=total_amount,
@@ -46,7 +47,7 @@ async def card_callback(telegram_id=None, period=None, total_amount=None):
     await bot.send_message(
         chat_id=telegram_id,
         text="Совершите оплату по ссылке ниже",
-        reply_markup=await generate_payment_keyboard(payment_link=payment_link, payment_id=payment_id)
+        reply_markup=await generate_payment_keyboard(payment_link=payment_link, payment_id=payment_id, type_=type_)
     )
     
 @dp.callback_query(lambda callback: callback.data.startswith("check_payment"))

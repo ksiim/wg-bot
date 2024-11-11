@@ -31,7 +31,7 @@ async def incline_by_period(period):
     else:
         return "месяцев"
     
-async def generate_payment_keyboard(payment_link: str, payment_id: str):
+async def generate_payment_keyboard(payment_link: str, payment_id: str, type_=None):
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
@@ -44,6 +44,12 @@ async def generate_payment_keyboard(payment_link: str, payment_id: str):
                 InlineKeyboardButton(
                     text="Проверить оплату/Получить VPN",
                     callback_data=f"check_payment:{payment_id}"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="Назад",
+                    callback_data=f"{type_}_vpn"
                 )
             ]
         ]
