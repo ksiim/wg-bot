@@ -34,7 +34,6 @@ async def start_message_handler(message: Message, state: FSMContext):
 
 @dp.callback_query(F.data == "main_menu")
 async def main_menu_callback_handler(callback: CallbackQuery):
-    await callback.message.delete()
     await callback.message.answer(
         text="Главное меню",
         reply_markup=start_markup
@@ -51,7 +50,6 @@ async def send_start_message(message: Message):
 
 @dp.callback_query(F.data == "buy_vpn")
 async def buy_vpn_callback(callback: CallbackQuery):
-    await callback.message.delete()
     await callback.message.answer(
         text=choose_type_of_subscription_text,
         reply_markup=choose_type_of_subscription_markup
@@ -60,7 +58,6 @@ async def buy_vpn_callback(callback: CallbackQuery):
 
 @dp.callback_query(F.data == "renew_vpn")
 async def renew_vpn_callback(callback: CallbackQuery):
-    await callback.message.delete()
     await callback.message.answer(
         text=choose_period_of_renew_text,
         reply_markup=choose_perdiod_of_renew_markup
@@ -69,7 +66,6 @@ async def renew_vpn_callback(callback: CallbackQuery):
 
 @dp.callback_query(F.data == "help")
 async def help_callback_handler(callback: CallbackQuery):
-    await callback.message.delete()
     await callback.message.answer_photo(
         photo=help_photo,
         caption=help_text,
@@ -79,7 +75,6 @@ async def help_callback_handler(callback: CallbackQuery):
 
 @dp.callback_query(F.data == "my_subscription")
 async def my_subscription_callback_handler(callback: CallbackQuery):
-    await callback.message.delete()
     end_of_subscription_date = await Orm.get_end_of_subscription(callback.from_user.id)
     user = await Orm.get_user_by_telegram_id(callback.from_user.id)
     wg = WireGuard()
